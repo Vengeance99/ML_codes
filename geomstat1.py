@@ -18,4 +18,5 @@ points_in_linear_space=euclidean.random_point(n_samples=n_samples)
 print('Points in linear space:\n',points_in_linear_space)
 linear_mean=gs.sum(points_in_linear_space,axis=0)/n_samples
 print('Mean of points:\n',linear_mean)
+# comment
 
