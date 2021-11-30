@@ -1,35 +1,85 @@
 import numpy as np
-import pandas as pd
-train_d=pd.read_csv("/home/shivanand/Documents/train.csv")
-test_d=pd.read_csv("/home/shivanand/Documents/test.csv")
-# print(train_d)
-x_train=train_d['x']
-y_train=train_d['y']
-x_test=test_d['x']
-y_test=test_d['y']
-x_train=np.array([x_train])
-y_train=np.array([y_train])
-x_test=np.array([x_test])
-y_test=np.array([y_test])
+import matplotlib.pyplot as plt
 
-# print(x_train)
-x_train=x_train.reshape(-1,1)
-x_test=x_test.reshape(-1,1)
-n=700
-alpha=0.0001
-a_0=np.zeros((n,1))
-a_1=np.zeros((n,1))
-ep=0
-while(ep<1000):
-    y=a_0+a_1*x_train
-    errr=y-y_train
-    mse=np.sum(errr**2)
-    mse_f=mse/n
-    a_0=a_0-alpha*2*np.sum(errr)/n
-    a_1=a_1-alpha*2*(np.sum(errr)*x_train)/n
-    ep+=1
-    if (ep%10)==0:
-        print(mse)
+x=[1,2,3,4,5,6,7]
+y=[2,4,6,8,10,12,14]
 
+plt.scatter(x,y)
+plt.show()
 
+n=len(y)
+costapp=[]
+def hypo(theta1,x):
+    hyp=theta1*x
+    return hyp
 
+def cost(theta1,y,x):
+    cost=(pow((hypo(theta1,x)-y),2))/(2*n)
+    costapp.append(cost)
+    # print((hypo(theta1,x),cost))
+    return cost
+
+def gradient(theta1,x,y):
+    gradient=(1/n) * cost(theta1,y,x)*x
+    return gradient
+def costcalc(theta,x,y,n):
+    cost=0
+    for i in range(n):
+        cost+=(pow((hypo(theta,x[i])-y[i]),2))
+    return cost/(2*n)    
+
+weights=[]    
+theta1=5
+# print(theta1)
+sumgrad=0  
+nsumgrad=1
+# ntheta=0
+learning_rate=0.01
+iters=0
+while (abs(nsumgrad-sumgrad)>0.1):
+# for z in range(19):
+    iters+=1
+    # print("ll")
+    nsumgrad=sumgrad
+    i=0
+    for i in range(len(x)):
+        sumgrad+=gradient(theta1,x[i],y[i])
+        
+    if(abs(nsumgrad-sumgrad)<0.9):
+        theta1=theta1
+        break
+    # print(sumgrad)  
+    else:  
+        theta1=theta1-(learning_rate*sumgrad)
+    weights.append(theta1)    
+    print(theta1)
+    
+    # ntheta1=theta1
+# print(iters)
+fcost=[]
+# print(theta1)
+# print(weights)
+# print(costapp)
+for i in range(len(weights)):
+    temp=costcalc(weights[i],x,y,len(x))
+    # print(temp)
+    fcost.append(temp)
+# print(fcost)
+# plt.scatter(cost,)
+plt.scatter(np.arange(1,len(weights)+1),fcost)
+plt.show()
+plt.scatter(weights,fcost)
+plt.show()
+
+#final Fit
+# plt.scatter(x,y)
+# plt.show()
+y_pred=[]
+for j in range(len(x)):
+    y_pred.append(theta1*x[j])
+# print(y_pred)  
+plt.scatter(x,y)
+plt.plot(x,y_pred)
+plt.show()  
+
+# plt.plot(x,())

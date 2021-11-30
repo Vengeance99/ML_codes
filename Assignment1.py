@@ -4,6 +4,12 @@ import matplotlib.pyplot as plt
 #Reading .xlsx file as a DataFrame
 df=pd.read_excel('/home/shivanand/Downloads/Activity_1_Data.xlsx') 
 print(df)
+# print(df.describe())
+
+#Exercise 1.3
+print(df.mean())
+print(df.median())
+print(df.mode())
 
 #plotting initial data from .xlsx file
 
